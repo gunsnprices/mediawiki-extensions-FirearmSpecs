@@ -1,0 +1,52 @@
+# FirearmSpecs together with the ParserFunctions extension.
+# This file is skipped when ParserFunctions is not installed.
+
+!! options
+version=2
+!! end
+
+!! functionhooks
+firearmspecs_caliber
+firearmspecs
+firearmspecs_costperround
+iferror
+if
+ifeq
+expr
+!! endfunctionhooks
+
+!! test
+#iferror recognizes FirearmSpecs errors
+!! wikitext
+{{#iferror:{{#costperround:free|50}}|error|ok}} {{#iferror:{{#costperround:18.99|50}}|error|ok}} {{#iferror:{{#firearmspecs:Glock 19|stock}}|error|ok}}
+!! html
+<p>error ok error
+</p>
+!! end
+
+!! test
+#if on a value the title does not have
+!! wikitext
+{{#if:{{#firearmspecs:Federal 9mm 115gr 50rd|capacity}}|capacity|no capacity}}, {{#if:{{#firearmspecs:Glock 19 9mm 15rd|capacity}}|capacity|no capacity}}
+!! html
+<p>no capacity, capacity
+</p>
+!! end
+
+!! test
+#ifeq on the caliber id
+!! wikitext
+{{#ifeq:{{#caliber:9MM LUGER|id}}|{{#caliber:9x19 Parabellum|id}}|same|different}}
+!! html
+<p>same
+</p>
+!! end
+
+!! test
+#expr with a cost per round
+!! wikitext
+{{#expr:{{#costperround:18.99|50|decimals=4}} * 1000}}
+!! html
+<p>379.8
+</p>
+!! end
