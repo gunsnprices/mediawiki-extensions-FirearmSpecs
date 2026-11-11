@@ -1,0 +1,443 @@
+# Parser tests for the FirearmSpecs extension.
+# Run from the MediaWiki root:
+#   php tests/parser/parserTests.php --file=extensions/FirearmSpecs/tests/parser/firearmSpecs.txt
+
+!! options
+version=2
+!! end
+
+!! functionhooks
+firearmspecs_caliber
+firearmspecs
+firearmspecs_costperround
+!! endfunctionhooks
+
+!! article
+Template:Gun model
+!! text
+{{#firearmspecs:{{{1}}}|model}}
+!! endarticle
+
+# --- {{#caliber:}} ---
+
+!! test
+#caliber: retailer spelling gives the canonical name
+!! wikitext
+{{#caliber:9MM LUGER}}
+!! html
+<p>9×19mm Parabellum
+</p>
+!! end
+
+!! test
+#calibre: British spelling of the function name
+!! wikitext
+{{#calibre:300 BLK}}
+!! html
+<p>.300 AAC Blackout
+</p>
+!! end
+
+!! test
+#caliber: name, id and type fields
+!! wikitext
+{{#caliber:308 WIN (7.62X51 NATO)|name}}; {{#caliber:9mm|id}}; {{#caliber:12 GA|type}}; {{#caliber: 22lr | TYPE }}
+!! html
+<p>.308 Win; 9x19mmparabellum; shotgun; rimfire
+</p>
+!! end
+
+!! test
+#caliber: aliases field
+!! wikitext
+{{#caliber:.22 Long Rifle|aliases}}
+!! html
+<p>22 Rimfire, .22 Long Rifle, 22 Long Rifle (LR), .22 Long Rifle (.22 LR), .22 LR (.22 LONG RIFLE)
+</p>
+!! end
+
+!! test
+#caliber: markup in library data is shown as text (12GA-3'' is not italic)
+!! wikitext
+{{#caliber:12 gauge|aliases}}
+!! html
+<p>12 GA, 12Ga 3.5, 12GA-3&#39;&#39;, 12Ga 2.75, 12 Gauge 3
+</p>
+!! end
+
+!! test
+#caliber: a name with an ampersand
+!! wikitext
+{{#caliber:38 spl}}
+!! html
+<p>.38 S&#38;W Special
+</p>
+!! end
+
+!! test
+#caliber: caliber found inside a longer text
+!! wikitext
+{{#caliber:Hornady Critical Defense 9mm Luger 115gr FTX 25rd}}
+!! html
+<p>9×19mm Parabellum
+</p>
+!! end
+
+!! test
+#caliber: unknown or empty text gives nothing
+!! wikitext
+a{{#caliber:not a caliber}}b{{#caliber:}}c{{#caliber:|name}}d
+!! html
+<p>abcd
+</p>
+!! end
+
+!! test
+#caliber: unknown field is an error, shown as text
+!! wikitext
+{{#caliber:9mm|<b>foo</b>}}
+!! html
+<p><strong class="error">FirearmSpecs: unknown field &#34;&#60;b&#62;foo&#60;/b&#62;&#34;. Use one of: name, id, type, aliases.</strong>
+</p>
+!! end
+
+!! test
+#caliber: no links by default
+!! wikitext
+{{#caliber:6.5 CM}}
+!! html
+<p>6.5mm Creedmoor
+</p>
+!! end
+
+!! test
+#caliber: link to the price page when $wgFirearmSpecsCaliberLinks is on
+!! config
+wgFirearmSpecsCaliberLinks=true
+!! wikitext
+{{#caliber:9mm}} {{#caliber:9mm|name}}
+!! html
+<p><a rel="nofollow" class="external text" href="https://gunsnprices.com/ammo/handgun-ammo/9-19mm-parabellum">9×19mm Parabellum</a> 9×19mm Parabellum
+</p>
+!! end
+
+# --- {{#firearmspecs:}} single fields ---
+
+!! test
+#firearmspecs: firearm fields
+!! wikitext
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS|kind}};
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS|brand}};
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS|model}};
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS|family}};
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS|caliber}};
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS|caliberid}};
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS|calibertype}};
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS|capacity}};
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS|barrel}}
+!! html
+<p>firearm;
+Glock;
+Glock 19 Gen 5 MOS;
+Glock 19;
+9×19mm Parabellum;
+9x19mmparabellum;
+handgun;
+15;
+4.02
+</p>
+!! end
+
+!! test
+#firearmspecs: barrel length units
+!! wikitext
+{{#firearmspecs:Ruger 10/22 Carbine .22 LR 18.5" 10rd|barrel}} in,
+{{#firearmspecs:Ruger 10/22 Carbine .22 LR 18.5" 10rd|barrel|unit=cm}} cm,
+{{#firearmspecs:Ruger 10/22 Carbine .22 LR 18.5" 10rd|unit=MM|barrel}} mm
+!! html
+<p>18.5 in,
+47 cm,
+470 mm
+</p>
+!! end
+
+!! test
+#firearmspecs: $wgFirearmSpecsBarrelUnit sets the default unit
+!! config
+wgFirearmSpecsBarrelUnit="mm"
+!! wikitext
+{{#firearmspecs:Mossberg 590 Persuader 12/20 BL/SY 3"|barrel}}
+!! html
+<p>508
+</p>
+!! end
+
+!! test
+#firearmspecs: all calibers of a title
+!! wikitext
+{{#firearmspecs:Henry Big Boy .44 Mag/.44 Spl 20in|calibers}}
+!! html
+<p>.44 Magnum, .44 S&#38;W Special
+</p>
+!! end
+
+!! test
+#firearmspecs: brand and part number options
+!! wikitext
+{{#firearmspecs:GLOCK 9MM PISTOL 15RD|model|brand=Glock|mpn=UA4350201}}
+!! html
+<p>Glock 43
+</p>
+!! end
+
+!! test
+#firearmspecs: ammunition fields and cost per round
+!! wikitext
+kind: {{#firearmspecs:Federal American Eagle 5.56x45mm 55gr FMJ 1000 Rounds|kind}},
+rounds: {{#firearmspecs:Federal American Eagle 5.56x45mm 55gr FMJ 1000 Rounds|rounds}},
+cost: {{#firearmspecs:Federal American Eagle 5.56x45mm 55gr FMJ 1000 Rounds|costperround|price=449.99}},
+cost, 4 decimals: {{#firearmspecs:Federal American Eagle 5.56x45mm 55gr FMJ 1000 Rounds|costperround|price=$449.99|decimals=4}},
+cost without a price: [{{#firearmspecs:Federal American Eagle 5.56x45mm 55gr FMJ 1000 Rounds|costperround}}],
+short title, guessed as a firearm: [{{#firearmspecs:Magtech 9mm 50rd|rounds}}],
+short title, kind=ammo: {{#firearmspecs:Magtech 9mm 50rd|rounds|kind=ammo}}
+!! html
+<p>kind: ammo,
+rounds: 1000,
+cost: 0.45,
+cost, 4 decimals: 0.4500,
+cost without a price: [],
+short title, guessed as a firearm: [],
+short title, kind=ammo: 50
+</p>
+!! end
+
+!! test
+#firearmspecs: specs the title does not have give nothing
+!! wikitext
+a{{#firearmspecs:Glock 19 holster|model}}b{{#firearmspecs:|caliber}}c{{#firearmspecs:Federal 9mm 115gr 50rd|capacity}}d
+!! html
+<p>abcd
+</p>
+!! end
+
+!! test
+#firearmspecs: used in a template
+!! wikitext
+{{Gun model|Sig Sauer P365 XL 9mm 3.7" 12+1 Optic Ready}}
+!! html
+<p>Sig Sauer P365 XL
+</p>
+!! end
+
+!! test
+#firearmspecs: errors for invalid options
+!! wikitext
+{{#firearmspecs:Glock 19|stock}}
+{{#firearmspecs:Glock 19|kind=pistol}}
+{{#firearmspecs:Glock 19|unit=ft}}
+{{#firearmspecs:Glock 19|price=[[Free]]}}
+{{#firearmspecs:Glock 19|decimals=5}}
+!! html
+<p><strong class="error">FirearmSpecs: unknown field &#34;stock&#34;. Use one of: kind, brand, model, family, caliber, calibers, caliberid, calibertype, capacity, barrel, rounds, costperround.</strong>
+<strong class="error">FirearmSpecs: unknown kind &#34;pistol&#34;. Use &#34;firearm&#34; or &#34;ammo&#34;.</strong>
+<strong class="error">FirearmSpecs: unknown unit &#34;ft&#34;. Use &#34;in&#34;, &#34;cm&#34; or &#34;mm&#34;.</strong>
+<strong class="error">FirearmSpecs: &#34;&#91;&#91;Free&#93;&#93;&#34; is not a price. Write it like 18.99.</strong>
+<strong class="error">FirearmSpecs: decimals must be a whole number from 0 to 4, not &#34;5&#34;.</strong>
+</p>
+!! end
+
+!! test
+#firearmspecs: a title in nowiki tags can contain pipes and markup
+!! options
+cat
+!! wikitext
+[[Category:Pistols]]{{#firearmspecs:<nowiki>Glock 19 9mm | [[Category:Bar]] {{Foo}}</nowiki>|model}}
+!! metadata
+cat=Pistols sort=
+!! html
+<p>Glock 19
+</p>
+!! end
+
+# --- {{#firearmspecs:}} table ---
+
+!! test
+#firearmspecs: table of a firearm
+!! wikitext
+{{#firearmspecs:Glock 19 Gen 5 MOS 9mm 4.02in 15rd Pistol PA195S203MOS}}
+!! html
+<table class="wikitable firearmspecs">
+<tbody><tr>
+<th scope="row">Type
+</th>
+<td>Firearm
+</td></tr>
+<tr>
+<th scope="row">Brand
+</th>
+<td>Glock
+</td></tr>
+<tr>
+<th scope="row">Model
+</th>
+<td>Glock 19 Gen 5 MOS
+</td></tr>
+<tr>
+<th scope="row">Caliber
+</th>
+<td>9×19mm Parabellum
+</td></tr>
+<tr>
+<th scope="row">Capacity
+</th>
+<td>15 rounds
+</td></tr>
+<tr>
+<th scope="row">Barrel length
+</th>
+<td>4.02 in
+</td></tr></tbody></table>
+!! end
+
+!! test
+#firearmspecs: table of ammunition with a price, after text on the same line
+!! wikitext
+Specs:{{#firearmspecs:Federal American Eagle 5.56x45mm 55gr FMJ 1000 Rounds|price=449.99}}
+!! html
+<p>Specs:
+</p>
+<table class="wikitable firearmspecs">
+<tbody><tr>
+<th scope="row">Type
+</th>
+<td>Ammunition
+</td></tr>
+<tr>
+<th scope="row">Caliber
+</th>
+<td>5.56×45mm NATO
+</td></tr>
+<tr>
+<th scope="row">Rounds per box
+</th>
+<td>1,000 rounds
+</td></tr>
+<tr>
+<th scope="row">Cost per round
+</th>
+<td>$0.45 per round
+</td></tr></tbody></table>
+!! end
+
+!! test
+#firearmspecs: table with caliber links, barrel in centimeters and another currency symbol
+!! config
+wgFirearmSpecsCaliberLinks=true
+wgFirearmSpecsCurrencySymbol="€"
+!! wikitext
+{{#firearmspecs:Henry Big Boy .44 Mag/.44 Spl 20in|unit=cm}}
+{{#firearmspecs:Winchester 308 150gr PowerMax Bonded 20rds|price=31.99}}
+!! html
+<table class="wikitable firearmspecs">
+<tbody><tr>
+<th scope="row">Type
+</th>
+<td>Firearm
+</td></tr>
+<tr>
+<th scope="row">Brand
+</th>
+<td>Henry
+</td></tr>
+<tr>
+<th scope="row">Model
+</th>
+<td>Henry Big Boy
+</td></tr>
+<tr>
+<th scope="row">Caliber
+</th>
+<td><a rel="nofollow" class="external text" href="https://gunsnprices.com/ammo/handgun-ammo/44-magnum">.44 Magnum</a>, <a rel="nofollow" class="external text" href="https://gunsnprices.com/ammo/handgun-ammo/44-s-amp-w-special">.44 S&#38;W Special</a>
+</td></tr>
+<tr>
+<th scope="row">Barrel length
+</th>
+<td>50.8 cm
+</td></tr></tbody></table>
+<table class="wikitable firearmspecs">
+<tbody><tr>
+<th scope="row">Type
+</th>
+<td>Ammunition
+</td></tr>
+<tr>
+<th scope="row">Caliber
+</th>
+<td><a rel="nofollow" class="external text" href="https://gunsnprices.com/ammo/rifle-ammo/308-win">.308 Win</a>
+</td></tr>
+<tr>
+<th scope="row">Rounds per box
+</th>
+<td>20 rounds
+</td></tr>
+<tr>
+<th scope="row">Cost per round
+</th>
+<td>€1.60 per round
+</td></tr></tbody></table>
+!! end
+
+!! test
+#firearmspecs: no table when the title has no specs
+!! wikitext
+a{{#firearmspecs:Hello world}}b
+!! html
+<p>ab
+</p>
+!! end
+
+# --- {{#costperround:}} ---
+
+!! test
+#costperround: price and round count
+!! wikitext
+{{#costperround:18.99|50}} {{#costperround:$18.99|50}} {{#costperround: 1,299.00 | 1,000 }} {{#costperround:18.99|50|decimals=0}} {{#costperround:18.99|50|decimals=4}}
+!! html
+<p>0.38 0.38 1.30 0 0.3798
+</p>
+!! end
+
+!! test
+#costperround: round count read from a title
+!! wikitext
+{{#costperround:449.99|Federal American Eagle 5.56x45mm 55gr FMJ 1000 Rounds}} {{#costperround:21.99|Winchester 9mm 115gr FMJ Box of 50}}
+!! html
+<p>0.45 0.44
+</p>
+!! end
+
+!! test
+#costperround: no round count in the title gives nothing
+!! wikitext
+a{{#costperround:18.99|Federal 9mm 115gr FMJ}}b{{#costperround:18.99|0}}c
+!! html
+<p>abc
+</p>
+!! end
+
+!! test
+#costperround: errors
+!! wikitext
+{{#costperround:free|50}}
+{{#costperround:18,99|50}}
+{{#costperround:-5|50}}
+{{#costperround:18.99}}
+{{#costperround:18.99|50|decimals=x}}
+!! html
+<p><strong class="error">FirearmSpecs: &#34;free&#34; is not a price. Write it like 18.99.</strong>
+<strong class="error">FirearmSpecs: &#34;18,99&#34; is not a price. Write it like 18.99.</strong>
+<strong class="error">FirearmSpecs: &#34;-5&#34; is not a price. Write it like 18.99.</strong>
+<strong class="error">FirearmSpecs: give a round count or a title after the price.</strong>
+<strong class="error">FirearmSpecs: decimals must be a whole number from 0 to 4, not &#34;x&#34;.</strong>
+</p>
+!! end

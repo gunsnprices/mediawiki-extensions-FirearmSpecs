@@ -1,0 +1,42 @@
+{
+	"@metadata": {
+		"authors": [
+			"GunsNPrices"
+		]
+	},
+	"firearmspecs-desc": "{{desc|name=FirearmSpecs|url=https://www.mediawiki.org/wiki/Extension:FirearmSpecs}}",
+	"firearmspecs": "{{doc-special|FirearmSpecs}}\nTitle of the special page where users try the parser on product titles.",
+	"firearmspecs-summary": "Introduction at the top of [[Special:FirearmSpecs]].",
+	"firearmspecs-legend": "Legend of the form on [[Special:FirearmSpecs]].",
+	"firearmspecs-form-titles": "Label of the text box for product titles on [[Special:FirearmSpecs]].\n\nParameters:\n* $1 - the most titles read at once (50)",
+	"firearmspecs-form-kind": "Label of the product type menu on [[Special:FirearmSpecs]].",
+	"firearmspecs-form-kind-guess": "Option of the product type menu on [[Special:FirearmSpecs]]: the parser decides from the title whether it is a firearm or ammunition.",
+	"firearmspecs-form-submit": "Label of the submit button on [[Special:FirearmSpecs]].",
+	"firearmspecs-results": "Heading above the results table on [[Special:FirearmSpecs]].",
+	"firearmspecs-results-truncated": "Warning on [[Special:FirearmSpecs]] when more titles were submitted than are read.\n\nParameters:\n* $1 - the number of titles read",
+	"firearmspecs-results-usage": "Text below the results table on [[Special:FirearmSpecs]]. Explains how to use the parser function on wiki pages. Do not translate <code><nowiki>{{#firearmspecs:</nowiki></code> or <code>caliber</code>.",
+	"firearmspecs-footer": "Credit line at the bottom of [[Special:FirearmSpecs]]. The data license (CC BY 4.0) requires this credit.\n\nParameters:\n* $1 - version of the gunsnprices library, such as 0.1.0",
+	"firearmspecs-col-title": "Column header on [[Special:FirearmSpecs]]: the product title that was read.\n{{Identical|Title}}",
+	"firearmspecs-spec-kind": "Label of the product type (firearm or ammunition), in the specs table of <code><nowiki>{{#firearmspecs:}}</nowiki></code> and on [[Special:FirearmSpecs]].\n\nShown as plain text: wiki markup is not read.\n{{Identical|Type}}",
+	"firearmspecs-spec-brand": "Label of the brand in the specs table. Shown as plain text.\n{{Identical|Brand}}",
+	"firearmspecs-spec-model": "Label of the firearm model in the specs table. Shown as plain text.\n{{Identical|Model}}",
+	"firearmspecs-spec-caliber": "Label of the caliber (cartridge) in the specs table. Shown as plain text.",
+	"firearmspecs-spec-capacity": "Label of the magazine capacity in the specs table. Shown as plain text.\n{{Identical|Capacity}}",
+	"firearmspecs-spec-barrel": "Label of the barrel length in the specs table. Shown as plain text.",
+	"firearmspecs-spec-rounds": "Label of the number of rounds in one box of ammunition, in the specs table. Shown as plain text.",
+	"firearmspecs-spec-costperround": "Label of the price of one round of ammunition, in the specs table. Shown as plain text.",
+	"firearmspecs-kind-firearm": "Product type: a firearm. Shown in the specs table and in the product type menu of [[Special:FirearmSpecs]]. Shown as plain text.",
+	"firearmspecs-kind-ammo": "Product type: ammunition. Shown in the specs table and in the product type menu of [[Special:FirearmSpecs]]. Shown as plain text.",
+	"firearmspecs-rounds": "A number of rounds (cartridges): the magazine capacity of a firearm, or the number of rounds in a box of ammunition. Shown as plain text.\n\nParameters:\n* $1 - the number of rounds",
+	"firearmspecs-unit-in": "A barrel length in inches. Shown as plain text.\n\nParameters:\n* $1 - the length, such as 16.5",
+	"firearmspecs-unit-cm": "A barrel length in centimeters. Shown as plain text.\n\nParameters:\n* $1 - the length, such as 41.9",
+	"firearmspecs-unit-mm": "A barrel length in millimeters. Shown as plain text.\n\nParameters:\n* $1 - the length, such as 419",
+	"firearmspecs-costperround-value": "The price of one round of ammunition, in the specs table. Shown as plain text.\n\nParameters:\n* $1 - the price with its currency symbol, such as $0.38",
+	"firearmspecs-error-library": "Error shown by the parser functions and on [[Special:FirearmSpecs]] when the PHP library the extension needs is missing. Shown as plain text: wiki markup is not read. Do not translate \"gunsnprices/gunsnprices\", \"composer install --no-dev\" or \"extensions/FirearmSpecs\".",
+	"firearmspecs-error-field": "Error of a parser function when the field name is not known. Shown as plain text.\n\nParameters:\n* $1 - the field name that was given\n* $2 - comma-separated list of valid field names",
+	"firearmspecs-error-kind": "Error of <code><nowiki>{{#firearmspecs:}}</nowiki></code> when the kind option is not known. Shown as plain text. Do not translate \"firearm\" or \"ammo\".\n\nParameters:\n* $1 - the kind that was given",
+	"firearmspecs-error-unit": "Error of <code><nowiki>{{#firearmspecs:}}</nowiki></code> when the unit option is not known. Shown as plain text. Do not translate \"in\", \"cm\" or \"mm\".\n\nParameters:\n* $1 - the unit that was given",
+	"firearmspecs-error-price": "Error of a parser function when the price is not a number. Shown as plain text.\n\nParameters:\n* $1 - the price that was given",
+	"firearmspecs-error-decimals": "Error of a parser function when the decimals option is not a whole number from 0 to 4. Shown as plain text.\n\nParameters:\n* $1 - the value that was given",
+	"firearmspecs-error-rounds": "Error of <code><nowiki>{{#costperround:}}</nowiki></code> when the second parameter (a round count or a product title) is missing. Shown as plain text."
+}

@@ -1,0 +1,42 @@
+{
+	"@metadata": {
+		"authors": [
+			"GunsNPrices"
+		]
+	},
+	"firearmspecs-desc": "Adds parser functions that read caliber, model, magazine capacity, barrel length and rounds per box from firearm and ammunition titles, and compute the cost per round",
+	"firearmspecs": "Firearm specs",
+	"firearmspecs-summary": "Type product titles of firearms or ammunition, one per line, to see what the FirearmSpecs parser functions read from them. The titles are read on this wiki's server and are not sent anywhere.",
+	"firearmspecs-legend": "Read specs from titles",
+	"firearmspecs-form-titles": "Titles, one per line (up to $1):",
+	"firearmspecs-form-kind": "Product type:",
+	"firearmspecs-form-kind-guess": "Guess from the title",
+	"firearmspecs-form-submit": "Read specs",
+	"firearmspecs-results": "Results",
+	"firearmspecs-results-truncated": "Only the first $1 {{PLURAL:$1|line was|lines were}} read.",
+	"firearmspecs-results-usage": "To show these specs on a page, use <code><nowiki>{{#firearmspecs:</nowiki>''title''<nowiki>}}</nowiki></code> for a table, or <code><nowiki>{{#firearmspecs:</nowiki>''title''<nowiki>|caliber}}</nowiki></code> for one value.",
+	"firearmspecs-footer": "The specs are read by the [https://github.com/gunsnprices/gunsnprices-php gunsnprices] library, version $1 (MIT License). Its caliber list and model data are by [https://gunsnprices.com GunsNPrices], under the [https://creativecommons.org/licenses/by/4.0/ CC BY 4.0] license.",
+	"firearmspecs-col-title": "Title",
+	"firearmspecs-spec-kind": "Type",
+	"firearmspecs-spec-brand": "Brand",
+	"firearmspecs-spec-model": "Model",
+	"firearmspecs-spec-caliber": "Caliber",
+	"firearmspecs-spec-capacity": "Capacity",
+	"firearmspecs-spec-barrel": "Barrel length",
+	"firearmspecs-spec-rounds": "Rounds per box",
+	"firearmspecs-spec-costperround": "Cost per round",
+	"firearmspecs-kind-firearm": "Firearm",
+	"firearmspecs-kind-ammo": "Ammunition",
+	"firearmspecs-rounds": "$1 {{PLURAL:$1|round|rounds}}",
+	"firearmspecs-unit-in": "$1 in",
+	"firearmspecs-unit-cm": "$1 cm",
+	"firearmspecs-unit-mm": "$1 mm",
+	"firearmspecs-costperround-value": "$1 per round",
+	"firearmspecs-error-library": "FirearmSpecs: the gunsnprices/gunsnprices library is not installed. Run \"composer install --no-dev\" in the extensions/FirearmSpecs directory.",
+	"firearmspecs-error-field": "FirearmSpecs: unknown field \"$1\". Use one of: $2.",
+	"firearmspecs-error-kind": "FirearmSpecs: unknown kind \"$1\". Use \"firearm\" or \"ammo\".",
+	"firearmspecs-error-unit": "FirearmSpecs: unknown unit \"$1\". Use \"in\", \"cm\" or \"mm\".",
+	"firearmspecs-error-price": "FirearmSpecs: \"$1\" is not a price. Write it like 18.99.",
+	"firearmspecs-error-decimals": "FirearmSpecs: decimals must be a whole number from 0 to 4, not \"$1\".",
+	"firearmspecs-error-rounds": "FirearmSpecs: give a round count or a title after the price."
+}

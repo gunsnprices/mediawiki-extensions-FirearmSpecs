@@ -1,0 +1,64 @@
+{
+	"name": "FirearmSpecs",
+	"version": "0.1.0",
+	"author": [
+		"[https://gunsnprices.com GunsNPrices]"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:FirearmSpecs",
+	"descriptionmsg": "firearmspecs-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.43.0",
+		"platform": {
+			"php": ">= 8.1"
+		}
+	},
+	"load_composer_autoloader": true,
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\FirearmSpecs\\": "src/"
+	},
+	"MessagesDirs": {
+		"FirearmSpecs": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"FirearmSpecsMagic": "FirearmSpecs.i18n.magic.php",
+		"FirearmSpecsAlias": "FirearmSpecs.alias.php"
+	},
+	"HookHandlers": {
+		"main": {
+			"class": "MediaWiki\\Extension\\FirearmSpecs\\Hooks",
+			"services": [
+				"MainConfig"
+			]
+		}
+	},
+	"Hooks": {
+		"ParserFirstCallInit": "main"
+	},
+	"SpecialPages": {
+		"FirearmSpecs": {
+			"class": "MediaWiki\\Extension\\FirearmSpecs\\Specials\\SpecialFirearmSpecs",
+			"services": [
+				"MainConfig"
+			]
+		}
+	},
+	"config": {
+		"FirearmSpecsBarrelUnit": {
+			"value": "in",
+			"description": "Unit of barrel lengths: \"in\" (inches), \"cm\" or \"mm\". The unit= option of {{#firearmspecs:}} overrides it."
+		},
+		"FirearmSpecsCaliberLinks": {
+			"value": false,
+			"description": "If true, caliber names in {{#caliber:}} (without a field) and in the {{#firearmspecs:}} table link to their price comparison pages on gunsnprices.com. Off by default."
+		},
+		"FirearmSpecsCurrencySymbol": {
+			"value": "$",
+			"description": "Currency symbol put before the cost per round in the {{#firearmspecs:}} table."
+		}
+	},
+	"manifest_version": 2
+}
